@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accelerate Solutions, LLC — Automation that gives your team its time back</title>
+<meta name="description" content="Accelerate Solutions builds custom automation — portals, document intelligence, reconciliation engines — that eliminates manual drudgery so your people can do the work they do best.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ACCELERATE SOLUTIONS — v2 "Spectrum" system
+   ============================================================ */
+:root{
+  --paper:#FBFAF6;
+  --paper-warm:#F4F1E9;
+  --ink:#181C3C;
+  --ink-2:#20264F;
+  --ink-soft:#4A4F73;
+  --muted:#7A7E9B;
+  --line:#E4E1D6;
+  --line-ink:rgba(251,250,246,.14);
+
+  --blue:#3B4FE0;
+  --coral:#FF5A3C;
+  --teal:#0EA487;
+  --amber:#F0A32F;
+  --violet:#7A5AF8;
+  --magenta:#DE3D8D;
+
+  --blue-soft:#E7EAFD;
+  --coral-soft:#FFE9E4;
+  --teal-soft:#DFF5EF;
+  --amber-soft:#FCEFD8;
+  --violet-soft:#EEE9FE;
+  --magenta-soft:#FBE4F0;
+
+  --display:'Fraunces',Georgia,serif;
+  --body:'Outfit',system-ui,sans-serif;
+  --mono:'Space Grotesk',ui-monospace,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.34,1.4,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);background:var(--paper);color:var(--ink);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--blue);color:#fff}
+a{color:inherit}
+
+/* ---------- scroll progress "throttle" ---------- */
+.throttle{
+  position:fixed;inset:0 0 auto 0;height:4px;z-index:200;
+  background:linear-gradient(90deg,var(--blue),var(--violet),var(--magenta),var(--coral),var(--amber),var(--teal));
+  transform:scaleX(0);transform-origin:left;
+}
+
+/* ---------- reveal system ---------- */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.07s}.rv-d2{transition-delay:.14s}.rv-d3{transition-delay:.21s}
+.rv-d4{transition-delay:.28s}.rv-d5{transition-delay:.35s}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px clamp(20px,5vw,64px);
+  transition:background .4s,box-shadow .4s,padding .4s;
+}
+.nav.scrolled{
+  background:rgba(251,250,246,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 var(--line);
+  padding:13px clamp(20px,5vw,64px);
+}
+.nav-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.nav-mark{width:32px;height:32px;flex:none}
+.nav-mark svg{width:100%;height:100%;display:block}
+.nav-name{font-family:var(--display);font-weight:600;font-size:1.06rem;letter-spacing:.01em}
+.nav-name em{font-style:italic;color:var(--blue)}
+.nav-links{display:flex;gap:32px;align-items:center;list-style:none}
+.nav-links a{
+  text-decoration:none;font-size:.87rem;font-weight:500;color:var(--ink-soft);
+  letter-spacing:.02em;position:relative;padding:4px 0;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;height:2px;width:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{
+  font-weight:600;font-size:.85rem;color:#fff!important;
+  background:var(--ink);padding:10px 22px!important;border-radius:99px;text-decoration:none;
+  transition:background .3s,transform .3s var(--spring),box-shadow .3s;
+}
+.nav-cta::after{display:none}
+.nav-cta:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 10px 26px -10px rgba(59,79,224,.5)}
+@media(max-width:840px){.nav-links li:not(:last-child){display:none}}
+
+/* ============================================================
+   HERO — the pipeline
+   ============================================================ */
+.hero{
+  position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:150px 0 70px;overflow:hidden;
+  background:
+    radial-gradient(60% 50% at 85% 10%,var(--violet-soft) 0%,transparent 60%),
+    radial-gradient(50% 45% at 10% 90%,var(--teal-soft) 0%,transparent 60%),
+    var(--paper);
+}
+.hero-grid{
+  max-width:1280px;margin:0 auto;width:100%;
+  padding:0 clamp(20px,5vw,64px);
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,72px);align-items:center;
+}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr}.hero-pipe{order:-1;max-width:560px}}
+.hero h1{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(2.5rem,5.4vw,4.4rem);line-height:1.04;letter-spacing:-.015em;
+}
+.hero h1 .w{display:inline-block;opacity:0;transform:translateY(.5em) rotate(2deg);
+  animation:wordin .9s var(--ease) forwards}
+@keyframes wordin{to{opacity:1;transform:none}}
+.hero h1 em{
+  font-style:italic;
+  background:linear-gradient(105deg,var(--blue) 20%,var(--violet) 85%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  margin-top:26px;max-width:50ch;font-size:clamp(1rem,1.35vw,1.15rem);
+  color:var(--ink-soft);opacity:0;animation:fadein .9s .7s var(--ease) forwards;
+}
+@keyframes fadein{to{opacity:1}}
+.hero-actions{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;
+  opacity:0;animation:fadein .9s .9s var(--ease) forwards}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-weight:600;font-size:.92rem;padding:15px 32px;border-radius:99px;text-decoration:none;
+  transition:transform .35s var(--spring),box-shadow .35s,background .3s,color .3s,border-color .3s;
+}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:var(--blue);transform:translateY(-3px);box-shadow:0 16px 34px -12px rgba(59,79,224,.55)}
+.btn-line{border:1.5px solid var(--line);color:var(--ink);background:#fff}
+.btn-line:hover{border-color:var(--ink);transform:translateY(-3px)}
+.btn svg{transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+
+/* pipeline figure */
+.hero-pipe{position:relative}
+.hero-pipe svg{width:100%;height:auto;display:block;overflow:visible}
+.pipe-caption{
+  margin-top:18px;text-align:center;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  opacity:0;animation:fadein 1s 1.3s forwards;
+}
+/* chaotic input paths */
+.chaos{stroke:#B9BDD4;stroke-width:2;fill:none;stroke-linecap:round;
+  stroke-dasharray:5 9;animation:flow 1.4s linear infinite}
+/* the engine block */
+.engine-body{fill:var(--ink)}
+.engine-ring{fill:none;stroke-width:2.5;stroke-linecap:round}
+/* ordered output lines */
+.rail{stroke-width:3.5;fill:none;stroke-linecap:round;stroke-dasharray:22 14;animation:flow .8s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-36}}
+.r-blue{stroke:var(--blue)}.r-coral{stroke:var(--coral)}.r-teal{stroke:var(--teal)}
+.r-amber{stroke:var(--amber)}.r-violet{stroke:var(--violet)}
+.pipe-tag{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.14em;fill:var(--muted)}
+.gear{transform-origin:center;transform-box:fill-box;animation:spin 9s linear infinite}
+.gear.rev{animation-direction:reverse;animation-duration:7s}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   SECTION SCAFFOLD
+   ============================================================ */
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:500;margin-bottom:22px;
+}
+.eyebrow::before{content:'';width:26px;height:2px;border-radius:2px;background:currentColor}
+.h2{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.9rem,3.5vw,3rem);line-height:1.12;letter-spacing:-.01em;max-width:24ch;
+}
+.h2 em{font-style:italic}
+.lede{margin-top:18px;max-width:58ch;color:var(--ink-soft);font-size:1.04rem}
+
+/* ============================================================
+   THE DRAG — warm paper, ledger of drudgery
+   ============================================================ */
+.drag{background:var(--paper-warm);padding:120px 0 130px;border-top:1px solid var(--line)}
+.drag .eyebrow{color:var(--coral)}
+.drag .h2 em{color:var(--coral)}
+.drag-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px);margin-top:52px;align-items:start}
+@media(max-width:900px){.drag-grid{grid-template-columns:1fr}}
+.drag-copy p{color:var(--ink-soft);margin-bottom:18px;font-size:1.03rem;max-width:52ch}
+.drag-copy strong{color:var(--ink);font-weight:600}
+
+/* the ledger: tasks that cross themselves out */
+.ledger{background:#fff;border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 20px 50px -30px rgba(24,28,60,.25);overflow:hidden}
+.ledger-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 22px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+}
+.ledger-head .dots{display:flex;gap:6px}
+.ledger-head .dots i{width:9px;height:9px;border-radius:50%;font-style:normal}
+.ledger-head .dots i:nth-child(1){background:var(--coral)}
+.ledger-head .dots i:nth-child(2){background:var(--amber)}
+.ledger-head .dots i:nth-child(3){background:var(--teal)}
+.task{
+  display:flex;align-items:center;gap:14px;padding:15px 22px;
+  border-bottom:1px solid var(--line);font-size:.94rem;color:var(--ink-2);
+  position:relative;
+}
+.task:last-child{border-bottom:none}
+.task .box{
+  width:19px;height:19px;flex:none;border-radius:5px;border:1.5px solid #C9CBDD;
+  display:grid;place-items:center;transition:background .4s,border-color .4s;
+}
+.task .box svg{width:11px;height:11px;stroke:#fff;stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:16;stroke-dashoffset:16;transition:stroke-dashoffset .45s var(--ease) .1s}
+.task .name{position:relative;transition:color .4s}
+.task .name::after{ /* strike-through draws itself */
+  content:'';position:absolute;left:-2px;right:100%;top:54%;height:1.5px;
+  background:currentColor;transition:right .5s var(--ease) .15s;
+}
+.task .who{margin-left:auto;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:4px 12px;border-radius:99px;
+  background:var(--paper-warm);color:var(--muted);transition:background .4s,color .4s;white-space:nowrap}
+.task.done .box{border-color:var(--task-c);background:var(--task-c)}
+.task.done .box svg{stroke-dashoffset:0}
+.task.done .name{color:var(--muted)}
+.task.done .name::after{right:-2px}
+.task.done .who{background:var(--task-soft);color:var(--task-c)}
+.ledger-foot{
+  padding:16px 22px;background:linear-gradient(90deg,var(--blue-soft),var(--violet-soft));
+  font-size:.9rem;color:var(--ink);font-weight:500;display:flex;align-items:center;gap:10px;
+}
+.ledger-foot b{font-family:var(--mono);font-weight:600}
+.ledger-foot .spark{width:18px;height:18px;flex:none}
+
+/* ============================================================
+   ABOUT — who we serve, and why we understand them
+   ============================================================ */
+.about{background:var(--paper);padding:125px 0 135px}
+.about .eyebrow{color:var(--blue)}
+.about .h2 em{color:var(--blue)}
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(44px,6vw,96px);margin-top:52px;align-items:start}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+.about-copy p{color:var(--ink-soft);margin-bottom:18px;font-size:1.03rem;max-width:56ch}
+.about-copy strong{color:var(--ink);font-weight:600}
+.about-pull{
+  margin:28px 0;padding:6px 0 6px 26px;border-left:3px solid var(--blue);
+  font-family:var(--display);font-style:italic;font-weight:500;
+  font-size:clamp(1.2rem,1.8vw,1.42rem);line-height:1.45;color:var(--ink);max-width:30ch;
+}
+.fluency{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:32px 30px;box-shadow:0 20px 50px -32px rgba(24,28,60,.28);
+}
+.fluency h3{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:500;color:var(--muted);margin-bottom:20px;
+}
+.fluency ul{list-style:none;display:grid;gap:2px}
+.fluency li{
+  display:flex;align-items:flex-start;gap:13px;padding:11px 10px;border-radius:10px;
+  font-size:.95rem;color:var(--ink-2);transition:background .3s,transform .3s var(--ease);
+}
+.fluency li:hover{background:var(--paper-warm);transform:translateX(4px)}
+.fluency li i{
+  width:22px;height:22px;flex:none;border-radius:7px;display:grid;place-items:center;
+  font-style:normal;margin-top:1px;
+}
+.fluency li i svg{width:12px;height:12px;stroke:#fff;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fluency li:nth-child(6n+1) i{background:var(--blue)}
+.fluency li:nth-child(6n+2) i{background:var(--teal)}
+.fluency li:nth-child(6n+3) i{background:var(--violet)}
+.fluency li:nth-child(6n+4) i{background:var(--coral)}
+.fluency li:nth-child(6n+5) i{background:var(--amber)}
+.fluency li:nth-child(6n+6) i{background:var(--magenta)}
+.fluency-foot{
+  margin-top:22px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);
+}
+.fluency-foot strong{color:var(--ink)}
+
+/* ============================================================
+   WORK — dark ink section, spectrum cards with wipe reveal
+   ============================================================ */
+.work{background:var(--ink);color:var(--paper);padding:130px 0 140px;position:relative;overflow:hidden}
+.work::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--blue),var(--violet),var(--magenta),var(--coral),var(--amber),var(--teal));
+}
+.work .eyebrow{color:var(--amber)}
+.work .h2 em{
+  background:linear-gradient(100deg,var(--amber),var(--coral));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.work .lede{color:rgba(251,250,246,.65)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;margin-bottom:60px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1020px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.cards{grid-template-columns:1fr}}
+.card{
+  --c:var(--blue);--c-soft:var(--blue-soft);
+  position:relative;background:var(--ink-2);border:1px solid var(--line-ink);
+  border-radius:16px;padding:32px 28px 28px;overflow:hidden;isolation:isolate;
+  transition:transform .45s var(--ease),border-color .45s,box-shadow .45s;
+}
+.card:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 26px 54px -22px rgba(0,0,0,.55)}
+/* the wipe: colored panel sweeps up on hover revealing the "after" state */
+.card-wipe{
+  position:absolute;inset:0;background:var(--c);z-index:1;
+  clip-path:inset(100% 0 0 0);transition:clip-path .55s var(--ease);
+}
+.card:hover .card-wipe{clip-path:inset(0 0 0 0)}
+.card-front,.card-back{transition:opacity .35s ease,transform .55s var(--ease)}
+.card-front{position:relative;z-index:2}
+.card:hover .card-front{opacity:0;transform:translateY(-10px)}
+.card-back{
+  position:absolute;inset:0;z-index:3;padding:32px 28px 28px;
+  display:flex;flex-direction:column;color:#fff;
+  opacity:0;transform:translateY(18px);pointer-events:none;
+}
+.card:hover .card-back{opacity:1;transform:none;transition-delay:.12s}
+.card-icon{
+  width:48px;height:48px;border-radius:12px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--c) 18%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 40%,transparent);
+  margin-bottom:22px;
+}
+.card-icon svg{width:22px;height:22px;stroke:var(--c);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-family:var(--display);font-weight:600;font-size:1.26rem;line-height:1.28;margin-bottom:11px}
+.card-front p{color:rgba(251,250,246,.66);font-size:.92rem;line-height:1.62}
+.card-tag{
+  margin-top:20px;display:inline-flex;font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--c);
+}
+.card-back .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  opacity:.85;margin-bottom:10px}
+.card-back h4{font-family:var(--display);font-style:italic;font-weight:600;font-size:1.35rem;line-height:1.3;margin-bottom:14px}
+.card-back p{font-size:.92rem;line-height:1.6;opacity:.94}
+.card-back .foot{margin-top:auto;padding-top:18px;font-size:.85rem;font-weight:600;
+  display:flex;align-items:center;gap:8px}
+.card.c-blue{--c:var(--blue);--c-soft:var(--blue-soft)}
+.card.c-coral{--c:var(--coral);--c-soft:var(--coral-soft)}
+.card.c-teal{--c:var(--teal);--c-soft:var(--teal-soft)}
+.card.c-amber{--c:var(--amber);--c-soft:var(--amber-soft)}
+.card.c-violet{--c:var(--violet);--c-soft:var(--violet-soft)}
+.card.c-magenta{--c:var(--magenta);--c-soft:var(--magenta-soft)}
+@media(hover:none){ /* touch: show back content inline instead of hover wipe */
+  .card-wipe{display:none}
+  .card-back{position:static;opacity:1;transform:none;padding:20px 0 0;color:var(--paper);pointer-events:auto}
+  .card-back h4{color:var(--c)}
+  .card-back .k{color:var(--c)}
+}
+
+/* ============================================================
+   NUMBERS — colorful stat tiles on light
+   ============================================================ */
+.numbers{background:var(--paper);padding:110px 0}
+.numbers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:8px}
+@media(max-width:960px){.numbers-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.numbers-grid{grid-template-columns:1fr}}
+.num{
+  border-radius:16px;padding:30px 26px;position:relative;overflow:hidden;
+  transition:transform .4s var(--ease),box-shadow .4s;
+}
+.num:hover{transform:translateY(-5px);box-shadow:0 20px 44px -22px rgba(24,28,60,.35)}
+.num.n1{background:var(--blue-soft)}.num.n2{background:var(--coral-soft)}
+.num.n3{background:var(--teal-soft)}.num.n4{background:var(--amber-soft)}
+.num-val{
+  font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,4vw,3.2rem);
+  line-height:1;display:flex;align-items:baseline;gap:3px;
+}
+.n1 .num-val{color:var(--blue)}.n2 .num-val{color:var(--coral)}
+.n3 .num-val{color:var(--teal)}.n4 .num-val{color:var(--amber)}
+.num-val .suffix{font-size:.5em;font-style:italic}
+.num-cap{margin-top:12px;font-size:.88rem;color:var(--ink-soft);max-width:26ch}
+
+/* ============================================================
+   PROCESS — vertical spine, alternating color stops
+   ============================================================ */
+.process{background:var(--paper);padding:40px 0 140px}
+.process .eyebrow{color:var(--violet)}
+.process .h2 em{color:var(--violet)}
+.spine{position:relative;margin-top:70px;max-width:860px}
+.spine::before{
+  content:'';position:absolute;left:27px;top:10px;bottom:10px;width:2px;
+  background:var(--line);border-radius:2px;
+}
+.spine-fill{
+  position:absolute;left:27px;top:10px;width:2px;border-radius:2px;
+  background:linear-gradient(180deg,var(--blue),var(--violet),var(--magenta),var(--coral));
+  height:0;transition:height 1.8s var(--ease);
+}
+.spine.armed .spine-fill{height:calc(100% - 20px)}
+.stage{position:relative;padding:0 0 46px 84px}
+.stage:last-child{padding-bottom:0}
+.stage-dot{
+  position:absolute;left:8px;top:2px;width:40px;height:40px;border-radius:12px;
+  display:grid;place-items:center;background:#fff;border:1.5px solid var(--line);
+  font-family:var(--mono);font-weight:600;font-size:.82rem;color:var(--muted);
+  transition:background .5s,border-color .5s,color .5s,transform .5s var(--spring);
+}
+.spine.armed .stage-dot{color:#fff;transform:scale(1.06)}
+.spine.armed .stage:nth-child(2) .stage-dot{background:var(--blue);border-color:var(--blue);transition-delay:.1s}
+.spine.armed .stage:nth-child(3) .stage-dot{background:var(--violet);border-color:var(--violet);transition-delay:.45s}
+.spine.armed .stage:nth-child(4) .stage-dot{background:var(--magenta);border-color:var(--magenta);transition-delay:.8s}
+.spine.armed .stage:nth-child(5) .stage-dot{background:var(--coral);border-color:var(--coral);transition-delay:1.15s}
+.stage h3{font-family:var(--display);font-weight:600;font-size:1.3rem;margin-bottom:8px}
+.stage p{color:var(--ink-soft);font-size:.97rem;max-width:56ch}
+.stage .mini{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+
+/* ============================================================
+   CAPABILITIES — chip grid with color pops
+   ============================================================ */
+.capabilities{background:var(--paper-warm);border-top:1px solid var(--line);padding:120px 0 130px}
+.capabilities .eyebrow{color:var(--teal)}
+.capabilities .h2 em{color:var(--teal)}
+.chipset{display:flex;flex-wrap:wrap;gap:12px;margin-top:50px;max-width:1000px}
+.chip{
+  --c:var(--blue);--cs:var(--blue-soft);
+  display:inline-flex;align-items:center;gap:9px;
+  padding:11px 20px;border-radius:99px;background:#fff;border:1px solid var(--line);
+  font-size:.9rem;font-weight:500;color:var(--ink-2);cursor:default;
+  transition:background .3s,color .3s,border-color .3s,transform .3s var(--spring),box-shadow .3s;
+}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c);font-style:normal;transition:background .3s}
+.chip:hover{background:var(--c);border-color:var(--c);color:#fff;transform:translateY(-3px) rotate(-1deg);
+  box-shadow:0 12px 26px -12px var(--c)}
+.chip:hover i{background:#fff}
+.chip.h-blue{--c:var(--blue)}.chip.h-coral{--c:var(--coral)}.chip.h-teal{--c:var(--teal)}
+.chip.h-amber{--c:var(--amber)}.chip.h-violet{--c:var(--violet)}.chip.h-magenta{--c:var(--magenta)}
+
+/* ============================================================
+   CONTACT / CTA
+   ============================================================ */
+.contact{
+  position:relative;padding:140px 0 150px;overflow:hidden;
+  background:
+    radial-gradient(70% 90% at 15% 0%,rgba(122,90,248,.16),transparent 55%),
+    radial-gradient(70% 90% at 90% 100%,rgba(14,164,135,.16),transparent 55%),
+    var(--ink);
+  color:var(--paper);
+}
+.contact::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--teal),var(--amber),var(--coral),var(--magenta),var(--violet),var(--blue));
+}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(44px,6vw,100px);align-items:center}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+.contact .eyebrow{color:var(--amber)}
+.contact .h2 em{
+  background:linear-gradient(100deg,var(--teal),var(--blue) 55%,var(--violet));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.contact .lede{color:rgba(251,250,246,.68)}
+.contact-card{
+  background:rgba(251,250,246,.05);border:1px solid var(--line-ink);
+  border-radius:20px;padding:36px 34px;backdrop-filter:blur(6px);
+}
+.contact-row{
+  display:flex;align-items:center;gap:18px;padding:18px 0;
+  border-bottom:1px solid var(--line-ink);text-decoration:none;
+  transition:padding-left .3s var(--ease);
+}
+.contact-row:last-child{border-bottom:none}
+a.contact-row:hover{padding-left:8px}
+.contact-ic{
+  width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;
+  border:1px solid var(--line-ink);
+}
+.contact-ic svg{width:20px;height:20px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.contact-row.c-blue .contact-ic{background:rgba(59,79,224,.18)}
+.contact-row.c-blue .contact-ic svg{stroke:#8D9AF5}
+.contact-row.c-teal .contact-ic{background:rgba(14,164,135,.16)}
+.contact-row.c-teal .contact-ic svg{stroke:#4FD0B5}
+.contact-row.c-coral .contact-ic{background:rgba(255,90,60,.16)}
+.contact-row.c-coral .contact-ic svg{stroke:#FF9077}
+.contact-k{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,250,246,.5)}
+.contact-v{font-size:1.02rem;font-weight:500;color:var(--paper)}
+a.contact-row .contact-v{position:relative}
+a.contact-row:hover .contact-v{text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(251,250,246,.4)}
+.contact .btn{margin-top:38px}
+.btn-spectrum{
+  background:linear-gradient(100deg,var(--blue),var(--violet) 60%,var(--magenta));
+  color:#fff;background-size:150% 100%;background-position:0 0;
+}
+.btn-spectrum:hover{background-position:100% 0;transform:translateY(-3px);
+  box-shadow:0 18px 40px -14px rgba(122,90,248,.6)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{background:var(--ink);border-top:1px solid var(--line-ink);padding:38px 0;color:var(--paper)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
+.foot-brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-size:.98rem}
+.foot-brand em{font-style:italic;color:#8D9AF5}
+.foot small{color:rgba(251,250,246,.45);font-size:.8rem;letter-spacing:.02em}
+.foot small a{color:rgba(251,250,246,.7);text-decoration:none}
+.foot small a:hover{text-decoration:underline}
+
+/* ============================================================
+   REDUCED MOTION + FOCUS
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .rv{opacity:1;transform:none}
+  .hero h1 .w{opacity:1;transform:none;animation:none}
+  .hero-sub,.hero-actions,.pipe-caption{opacity:1;animation:none}
+  .chaos,.rail{animation:none}
+  .gear{animation:none}
+}
+:focus-visible{outline:2.5px solid var(--blue);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="throttle" id="throttle" aria-hidden="true"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav" id="nav" aria-label="Primary">
+  <a class="nav-brand" href="#top" aria-label="Accelerate Solutions home">
+    <span class="nav-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 25 L16 6 L28 25" fill="none" stroke="#3B4FE0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 25 L16 15.5 L22 25" fill="none" stroke="#FF5A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="nav-name">Accelerate <em>Solutions</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a class="nav-cta" href="#contact">Start a project</a></li>
+  </ul>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <h1>
+        <span class="w" style="animation-delay:.05s">Automate</span>
+        <span class="w" style="animation-delay:.13s">the</span>
+        <span class="w" style="animation-delay:.21s">drudgery.</span><br>
+        <span class="w" style="animation-delay:.33s"><em>Accelerate</em></span>
+        <span class="w" style="animation-delay:.41s">what</span>
+        <span class="w" style="animation-delay:.49s">matters.</span>
+      </h1>
+      <p class="hero-sub">
+        We build the software your business actually needs — portals, document
+        intelligence, reconciliation engines, reporting pipelines — so the repetitive
+        work runs itself and your people spend their hours on the work only they can do.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-ink" href="#contact">Start a project
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-line" href="#work">See the work</a>
+      </div>
+    </div>
+
+    <!-- The pipeline: chaos in, order out -->
+    <figure class="hero-pipe" aria-label="Diagram: chaotic manual tasks flow into the Accelerate engine and exit as five orderly automated streams">
+      <svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" role="img">
+        <!-- chaotic inputs -->
+        <path class="chaos" d="M10 60 C 80 30, 120 120, 175 95 S 230 150, 250 160"/>
+        <path class="chaos" style="animation-delay:-.3s" d="M0 140 C 70 170, 90 90, 150 130 S 225 170, 250 175"/>
+        <path class="chaos" style="animation-delay:-.6s" d="M15 230 C 75 250, 110 180, 165 210 S 230 195, 250 190"/>
+        <path class="chaos" style="animation-delay:-.9s" d="M5 320 C 85 340, 105 250, 170 265 S 232 215, 250 205"/>
+        <path class="chaos" style="animation-delay:-1.1s" d="M25 385 C 90 370, 130 300, 180 280 S 235 228, 250 218"/>
+        <text class="pipe-tag" x="10" y="38">MANUAL TASKS</text>
+
+        <!-- engine -->
+        <g>
+          <rect class="engine-body" x="250" y="140" width="110" height="120" rx="20"/>
+          <!-- gears -->
+          <g class="gear">
+            <circle cx="290" cy="185" r="17" fill="none" stroke="#F0A32F" stroke-width="3"/>
+            <g stroke="#F0A32F" stroke-width="3" stroke-linecap="round">
+              <line x1="290" y1="162" x2="290" y2="170"/><line x1="290" y1="200" x2="290" y2="208"/>
+              <line x1="267" y1="185" x2="275" y2="185"/><line x1="305" y1="185" x2="313" y2="185"/>
+              <line x1="274" y1="169" x2="279" y2="174"/><line x1="301" y1="196" x2="306" y2="201"/>
+              <line x1="306" y1="169" x2="301" y2="174"/><line x1="279" y1="196" x2="274" y2="201"/>
+            </g>
+          </g>
+          <g class="gear rev">
+            <circle cx="325" cy="225" r="12" fill="none" stroke="#4FD0B5" stroke-width="2.6"/>
+            <g stroke="#4FD0B5" stroke-width="2.6" stroke-linecap="round">
+              <line x1="325" y1="208" x2="325" y2="214"/><line x1="325" y1="236" x2="325" y2="242"/>
+              <line x1="308" y1="225" x2="314" y2="225"/><line x1="336" y1="225" x2="342" y2="225"/>
+            </g>
+          </g>
+          <text x="305" y="128" text-anchor="middle" class="pipe-tag" style="fill:#181C3C;font-weight:600">ACCELERATE</text>
+        </g>
+
+        <!-- ordered outputs -->
+        <path class="rail r-blue"   d="M360 160 H 550"/>
+        <path class="rail r-violet" style="animation-delay:-.15s" d="M360 180 H 550"/>
+        <path class="rail r-coral"  style="animation-delay:-.3s"  d="M360 200 H 550"/>
+        <path class="rail r-amber"  style="animation-delay:-.45s" d="M360 220 H 550"/>
+        <path class="rail r-teal"   style="animation-delay:-.6s"  d="M360 240 H 550"/>
+        <text class="pipe-tag" x="550" y="270" text-anchor="end">AUTOMATED · ON TIME · EVERY TIME</text>
+      </svg>
+      <figcaption class="pipe-caption">Chaos in&nbsp;&nbsp;→&nbsp;&nbsp;order out</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+<!-- ===================== THE DRAG ===================== -->
+<section class="drag" aria-labelledby="drag-title">
+  <div class="wrap">
+    <p class="eyebrow rv">The problem</p>
+    <h2 class="h2 rv rv-d1" id="drag-title">Your best people are buried in <em>work a machine should do.</em></h2>
+    <div class="drag-grid">
+      <div class="drag-copy rv rv-d2">
+        <p>
+          Re-keying the same data into three systems. Chasing signatures over email.
+          Reconciling spreadsheets line by line. Copying numbers out of PDFs. It's not
+          hard work — it's <strong>slow, error-prone work that quietly eats entire roles.</strong>
+        </p>
+        <p>
+          Every hour spent on manual process is an hour not spent serving clients,
+          catching problems early, or improving how the business runs. And unlike your
+          people, the drudgery never calls in sick — it just grows.
+        </p>
+        <p>
+          Accelerate Solutions replaces those hours with purpose-built software:
+          <strong>tools shaped exactly to your workflow,</strong> not another off-the-shelf
+          platform your team has to bend around. Watch the checklist — that's what
+          handing work to software looks like.
+        </p>
+      </div>
+      <div class="ledger rv rv-d3" id="ledger" aria-label="Animated checklist showing repetitive tasks being reassigned from staff to automated systems">
+        <div class="ledger-head"><span>This week's drudgery</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="task" style="--task-c:var(--blue);--task-soft:var(--blue-soft)">
+          <span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></span>
+          <span class="name">Collect &amp; countersign 14 documents</span>
+          <span class="who" data-before="3 hrs · staff" data-after="portal · auto">3 hrs · staff</span>
+        </div>
+        <div class="task" style="--task-c:var(--coral);--task-soft:var(--coral-soft)">
+          <span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></span>
+          <span class="name">Key figures out of 60 PDF authorizations</span>
+          <span class="who" data-before="5 hrs · staff" data-after="AI extract · auto">5 hrs · staff</span>
+        </div>
+        <div class="task" style="--task-c:var(--violet);--task-soft:var(--violet-soft)">
+          <span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></span>
+          <span class="name">Reconcile payroll against remittances</span>
+          <span class="who" data-before="1 day · staff" data-after="engine · auto">1 day · staff</span>
+        </div>
+        <div class="task" style="--task-c:var(--amber);--task-soft:var(--amber-soft)">
+          <span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></span>
+          <span class="name">Build &amp; send the Monday reports</span>
+          <span class="who" data-before="2 hrs · staff" data-after="pipeline · auto">2 hrs · staff</span>
+        </div>
+        <div class="task" style="--task-c:var(--teal);--task-soft:var(--teal-soft)">
+          <span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></span>
+          <span class="name">Chase expiring credentials &amp; renewals</span>
+          <span class="who" data-before="90 min · staff" data-after="alerts · auto">90 min · staff</span>
+        </div>
+        <div class="ledger-foot">
+          <svg class="spark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="#3B4FE0"/></svg>
+          <span><b id="hours-back">0</b>&nbsp;hours handed back to your team — this week alone.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="about" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <p class="eyebrow rv">Who we serve</p>
+    <h2 class="h2 rv rv-d1" id="about-title">Built by people who have <em>run these operations.</em></h2>
+    <div class="about-grid">
+      <div class="about-copy rv rv-d2">
+        <p>
+          Accelerate Solutions works primarily with organizations serving people with
+          intellectual and developmental disabilities and providers of mental and
+          behavioral health services. That focus isn't a marketing choice — it's
+          <strong>where we come from.</strong>
+        </p>
+        <p class="about-pull">
+          We didn't study these fields from the outside. We spent decades inside
+          them — running the operations we now automate.
+        </p>
+        <p>
+          Years of hands-on provider operations mean we already understand the shape
+          of your work: the waiver programs and their documentation demands, the
+          billing cycles that don't forgive errors, the credentialing clocks, the
+          audits that arrive without warning. <strong>You won't spend the first month
+          of an engagement teaching us your acronyms.</strong>
+        </p>
+        <p>
+          That subject-matter depth changes what gets built. Tools designed by someone
+          who has lived the workflow anticipate the edge cases — the retroactive
+          authorization, the mid-month rate change, the document that needs two
+          signatures in the right order — instead of discovering them in production.
+        </p>
+      </div>
+      <div class="fluency rv rv-d3">
+        <h3>Fluent on day one</h3>
+        <ul>
+          <li><i><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></i>ID/DD waiver program operations &amp; documentation</li>
+          <li><i><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></i>Mental &amp; behavioral health service delivery</li>
+          <li><i><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></i>Medicaid billing, prior authorizations &amp; EVV</li>
+          <li><i><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></i>Compliance, incident &amp; audit-ready recordkeeping</li>
+          <li><i><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></i>Staff credentialing, training &amp; onboarding requirements</li>
+          <li><i><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3"/></svg></i>EHR platforms &amp; the systems providers actually use</li>
+        </ul>
+        <p class="fluency-foot">
+          <strong>Decades of accumulated field expertise,</strong> applied to every
+          tool we ship — so the software fits the work, not the other way around.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK ===================== -->
+<section class="work" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <p class="eyebrow rv">What we build</p>
+        <h2 class="h2 rv rv-d1" id="work-title">Real systems, in production, <em>doing real work.</em></h2>
+      </div>
+      <p class="lede rv rv-d2" style="margin-top:0;max-width:36ch">
+        Six categories of system we've shipped — built for regulated, detail-heavy
+        environments where errors are expensive. Hover any card for the payoff.
+      </p>
+    </div>
+
+    <div class="cards">
+      <article class="card c-blue rv" tabindex="0">
+        <div class="card-wipe" aria-hidden="true"></div>
+        <div class="card-front">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v14H4z"/><path d="M8 21h8M12 18v3"/><path d="M8 9l2.5 2.5L15 7"/></svg></div>
+          <h3>Compliance &amp; e-signature portals</h3>
+          <p>Web portals that route documents, verify identity, capture legally-defensible signatures, and generate audit-stamped PDFs — automatically emailed to everyone who needs them.</p>
+          <span class="card-tag">Replaces: print → sign → scan → chase</span>
+        </div>
+        <div class="card-back">
+          <span class="k">The payoff</span>
+          <h4>One link. Signed, archived &amp; audit-ready in minutes.</h4>
+          <p>Every submission lands with a timestamped audit appendix — defensible if anyone ever asks, invisible effort if they don't.</p>
+          <span class="foot">Signature chasing: retired ✓</span>
+        </div>
+      </article>
+
+      <article class="card c-coral rv rv-d1" tabindex="0">
+        <div class="card-wipe" aria-hidden="true"></div>
+        <div class="card-front">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div>
+          <h3>Document intelligence</h3>
+          <p>AI-powered extraction that reads authorizations, invoices, and forms straight out of PDFs — pulling structured data, flagging discrepancies, logging every result.</p>
+          <span class="card-tag">Replaces: hand-keying from PDF stacks</span>
+        </div>
+        <div class="card-back">
+          <span class="k">The payoff</span>
+          <h4>Drop files in. Clean, structured data comes out.</h4>
+          <p>Sixty documents processed while your coffee brews — each one verified against the source and logged for review.</p>
+          <span class="foot">Data entry: retired ✓</span>
+        </div>
+      </article>
+
+      <article class="card c-teal rv rv-d2" tabindex="0">
+        <div class="card-wipe" aria-hidden="true"></div>
+        <div class="card-front">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 6h7M3 12h7M3 18h7"/><path d="M14 6h7M14 12h7M14 18h7"/><path d="M12 3v18" stroke-dasharray="2 3"/></svg></div>
+          <h3>Reconciliation engines</h3>
+          <p>Payroll-to-remittance, billing-to-ledger, system-to-system: fuzzy-matching engines that compare thousands of lines and surface only the exceptions worth a human's attention.</p>
+          <span class="card-tag">Replaces: side-by-side spreadsheet review</span>
+        </div>
+        <div class="card-back">
+          <span class="k">The payoff</span>
+          <h4>An exception report instead of a lost day.</h4>
+          <p>Thousands of lines compared across sources in seconds — your team reviews the twelve that actually need judgment.</p>
+          <span class="foot">Line-by-line review: retired ✓</span>
+        </div>
+      </article>
+
+      <article class="card c-amber rv rv-d3" tabindex="0">
+        <div class="card-wipe" aria-hidden="true"></div>
+        <div class="card-front">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M6 16v-5M11 16V7M16 16v-8M21 16V4"/></svg></div>
+          <h3>Reporting &amp; alert pipelines</h3>
+          <p>Scheduled digests, utilization trackers, expiration alerts, and branded HTML email reports that assemble themselves from your live data.</p>
+          <span class="card-tag">Replaces: "someone remembers to run it"</span>
+        </div>
+        <div class="card-back">
+          <span class="k">The payoff</span>
+          <h4>It's in the inbox every Monday at 7 a.m.</h4>
+          <p>Nobody builds it, nobody forgets it, nobody asks for it — the numbers are simply there before the questions are.</p>
+          <span class="foot">Report scramble: retired ✓</span>
+        </div>
+      </article>
+
+      <article class="card c-violet rv rv-d4" tabindex="0">
+        <div class="card-wipe" aria-hidden="true"></div>
+        <div class="card-front">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.4 2.9-5 5.5-5s4.9 1.6 5.5 5"/><path d="M16 8h5M16 12h5M18 16h3"/></svg></div>
+          <h3>Onboarding &amp; workforce tools</h3>
+          <p>End-to-end onboarding flows — tax forms, direct deposit, background-check automation, training with verified certificates — in one guided path.</p>
+          <span class="card-tag">Replaces: a folder of forms &amp; follow-ups</span>
+        </div>
+        <div class="card-back">
+          <span class="k">The payoff</span>
+          <h4>A week of paperwork becomes a guided afternoon.</h4>
+          <p>New hires arrive compliant and credentialed on day one — every form validated, every certificate verifiable.</p>
+          <span class="foot">Onboarding limbo: retired ✓</span>
+        </div>
+      </article>
+
+      <article class="card c-magenta rv rv-d5" tabindex="0">
+        <div class="card-wipe" aria-hidden="true"></div>
+        <div class="card-front">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M7 9l3 3 2.5-2.5L16 13"/><path d="M8 21h8"/></svg></div>
+          <h3>Operations dashboards</h3>
+          <p>Command-center views that pull from every system you run — banking, records, contacts, filings — and reconcile them into one screen with drill-downs and scheduled summaries.</p>
+          <span class="card-tag">Replaces: five tabs, five versions of truth</span>
+        </div>
+        <div class="card-back">
+          <span class="k">The payoff</span>
+          <h4>One screen that already agrees with itself.</h4>
+          <p>Every source reconciled before you look at it — discrepancies flagged, trends surfaced, digest in your inbox.</p>
+          <span class="foot">Tab juggling: retired ✓</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NUMBERS ===================== -->
+<section class="numbers" aria-label="Track record at a glance">
+  <div class="wrap">
+    <div class="numbers-grid">
+      <div class="num n1 rv"><div class="num-val"><span data-count="40">0</span><span class="suffix">+</span></div><p class="num-cap">production tools built and running today</p></div>
+      <div class="num n2 rv rv-d1"><div class="num-val"><span data-count="1000">0</span><span class="suffix">s</span></div><p class="num-cap">of hours of manual work retired each year</p></div>
+      <div class="num n3 rv rv-d2"><div class="num-val"><span data-count="6">0</span><span class="suffix">+</span></div><p class="num-cap">platforms integrated — from Google Workspace to legacy EHRs</p></div>
+      <div class="num n4 rv rv-d3"><div class="num-val"><span data-count="1">0</span><span class="suffix">st</span></div><p class="num-cap">delivery is production-ready — not a prototype you babysit</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS ===================== -->
+<section class="process" id="process" aria-labelledby="process-title">
+  <div class="wrap">
+    <p class="eyebrow rv">How it works</p>
+    <h2 class="h2 rv rv-d1" id="process-title">From bottleneck to <em>running in production.</em></h2>
+    <p class="lede rv rv-d2">A short, honest engagement — no six-month discovery phase, no change-order treadmill.</p>
+
+    <div class="spine" id="spine">
+      <div class="spine-fill" aria-hidden="true"></div>
+      <div class="stage rv">
+        <span class="stage-dot" aria-hidden="true">01</span>
+        <span class="mini">Map</span>
+        <h3>Find the drag</h3>
+        <p>We sit with the people doing the work and map where hours actually go — not where the org chart says they go.</p>
+      </div>
+      <div class="stage rv rv-d1">
+        <span class="stage-dot" aria-hidden="true">02</span>
+        <span class="mini">Design</span>
+        <h3>Shape the tool</h3>
+        <p>We design around your real workflow, your systems, and your compliance obligations — then agree on exactly what "done" means.</p>
+      </div>
+      <div class="stage rv rv-d2">
+        <span class="stage-dot" aria-hidden="true">03</span>
+        <span class="mini">Build</span>
+        <h3>Ship it working</h3>
+        <p>First delivery is complete: validation, error states, audit trails, documentation. You test it against real work, not a demo.</p>
+      </div>
+      <div class="stage rv rv-d3">
+        <span class="stage-dot" aria-hidden="true">04</span>
+        <span class="mini">Run</span>
+        <h3>Let it compound</h3>
+        <p>The tool runs; the hours come back. We stay on for refinements as your process evolves — most clients come back with the next bottleneck.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CAPABILITIES ===================== -->
+<section class="capabilities" id="capabilities" aria-labelledby="cap-title">
+  <div class="wrap">
+    <p class="eyebrow rv">Capabilities</p>
+    <h2 class="h2 rv rv-d1" id="cap-title">Fluent in the systems <em>you already run.</em></h2>
+    <p class="lede rv rv-d2">We build inside your existing stack — no rip-and-replace, no new platform to buy.</p>
+    <div class="chipset rv rv-d3">
+      <span class="chip h-blue"><i></i>Google Workspace</span>
+      <span class="chip h-violet"><i></i>Apps Script portals</span>
+      <span class="chip h-teal"><i></i>Python automation</span>
+      <span class="chip h-amber"><i></i>Excel &amp; VBA</span>
+      <span class="chip h-coral"><i></i>AI / LLM pipelines</span>
+      <span class="chip h-magenta"><i></i>PDF generation</span>
+      <span class="chip h-teal"><i></i>E-signature workflows</span>
+      <span class="chip h-blue"><i></i>Email relay systems</span>
+      <span class="chip h-coral"><i></i>EHR integrations</span>
+      <span class="chip h-violet"><i></i>Medicaid billing &amp; EVV</span>
+      <span class="chip h-amber"><i></i>Fuzzy-match reconciliation</span>
+      <span class="chip h-blue"><i></i>Audit-ready records</span>
+      <span class="chip h-magenta"><i></i>Browser form automation</span>
+      <span class="chip h-teal"><i></i>QuickBooks &amp; remittance</span>
+      <span class="chip h-coral"><i></i>Data dashboards</span>
+      <span class="chip h-violet"><i></i>Web app deployment</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow rv">Get in touch</p>
+      <h2 class="h2 rv rv-d1" id="contact-title">What would your team do with <em>ten hours a week back?</em></h2>
+      <p class="lede rv rv-d2">Tell us about the process that's eating your time. If we can automate it, we'll tell you how — and if we can't, we'll tell you that too.</p>
+      <a class="btn btn-spectrum rv rv-d3" href="mailto:patrick@acceleratesolutions.net?subject=Project%20inquiry">Start the conversation
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="contact-card rv rv-d2">
+      <a class="contact-row c-blue" href="mailto:patrick@acceleratesolutions.net">
+        <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+        <span><span class="contact-k">Email</span><br><span class="contact-v">patrick@acceleratesolutions.net</span></span>
+      </a>
+      <div class="contact-row c-teal">
+        <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+        <span><span class="contact-k">Based in</span><br><span class="contact-v">Louisville, Kentucky</span></span>
+      </div>
+      <div class="contact-row c-coral">
+        <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+        <span><span class="contact-k">Response time</span><br><span class="contact-v">Within one business day</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap foot">
+    <div class="foot-brand">
+      <span class="nav-mark" style="width:24px;height:24px" aria-hidden="true">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 25 L16 6 L28 25" fill="none" stroke="#8D9AF5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 25 L16 15.5 L22 25" fill="none" stroke="#FF5A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>Accelerate <em>Solutions</em>, LLC</span>
+    </div>
+    <small>© 2026 Accelerate Solutions, LLC · Louisville, Kentucky · <a href="mailto:patrick@acceleratesolutions.net">patrick@acceleratesolutions.net</a></small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- scroll progress throttle ---------- */
+  const throttle = document.getElementById('throttle');
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    throttle.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---------- reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ---------- the ledger: tasks hand themselves to software ----------
+     Each row checks itself off in sequence; the "who" pill flips from
+     staff-hours to automated, and the hours-returned counter climbs. */
+  const ledger = document.getElementById('ledger');
+  if (ledger){
+    const tasks = Array.from(ledger.querySelectorAll('.task'));
+    const hoursEl = document.getElementById('hours-back');
+    const hourValues = [3, 5, 8, 2, 1.5];   /* matches the row labels */
+    let total = 0;
+    const runRow = (i) => {
+      if (i >= tasks.length) return;
+      const t = tasks[i];
+      t.classList.add('done');
+      const who = t.querySelector('.who');
+      setTimeout(() => { who.textContent = who.dataset.after; }, 380);
+      total += hourValues[i];
+      const shown = total % 1 === 0 ? total : total.toFixed(1);
+      setTimeout(() => { hoursEl.textContent = shown; }, 420);
+      setTimeout(() => runRow(i + 1), prefersReduced ? 0 : 650);
+    };
+    const lio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        lio.disconnect();
+        setTimeout(() => runRow(0), prefersReduced ? 0 : 500);
+      });
+    }, {threshold:.45});
+    lio.observe(ledger);
+  }
+
+  /* ---------- process spine ---------- */
+  const spine = document.getElementById('spine');
+  if (spine){
+    const sio = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting){ spine.classList.add('armed'); sio.disconnect(); } });
+    }, {threshold:.25});
+    sio.observe(spine);
+  }
+
+  /* ---------- count-up numbers ---------- */
+  const counters = document.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = parseInt(el.dataset.count, 10), dur = 1400, t0 = performance.now();
+      if (prefersReduced){ el.textContent = target.toLocaleString(); cio.unobserve(el); return; }
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(target * eased).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      cio.unobserve(el);
+    });
+  }, {threshold:.6});
+  counters.forEach(el => cio.observe(el));
+
+  /* ---------- keyboard access for wipe cards ---------- */
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('focus', () => card.classList.add('hover-sim'));
+    card.addEventListener('blur', () => card.classList.remove('hover-sim'));
+  });
+  /* mirror :hover styles for keyboard focus */
+  const style = document.createElement('style');
+  style.textContent = `
+    .card.hover-sim{transform:translateY(-6px);border-color:var(--c)}
+    .card.hover-sim .card-wipe{clip-path:inset(0 0 0 0)}
+    .card.hover-sim .card-front{opacity:0;transform:translateY(-10px)}
+    .card.hover-sim .card-back{opacity:1;transform:none;transition-delay:.12s}
+  `;
+  document.head.appendChild(style);
+})();
+</script>
+</body>
+</html>
