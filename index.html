@@ -531,6 +531,62 @@ a.contact-row:hover .contact-v{text-decoration:underline;text-underline-offset:4
 .btn-spectrum:hover{background-position:100% 0;transform:translateY(-3px);
   box-shadow:0 18px 40px -14px rgba(122,90,248,.6)}
 
+/* ---------- project inquiry form (lives in the dark contact section) ---------- */
+.inquiry{margin-top:74px;padding-top:56px;border-top:1px solid var(--line-ink)}
+.inquiry .eyebrow{color:var(--teal);margin-bottom:16px}
+.inquiry-head{max-width:54ch;margin-bottom:34px}
+.inquiry-head h3{
+  font-family:var(--display);font-weight:600;font-size:clamp(1.4rem,2.4vw,1.95rem);
+  line-height:1.2;letter-spacing:-.01em;
+}
+.inquiry-head p{margin-top:12px;color:rgba(251,250,246,.62);font-size:1rem;max-width:50ch}
+.project-form{
+  background:rgba(251,250,246,.05);border:1px solid var(--line-ink);
+  border-radius:20px;padding:clamp(24px,3vw,38px);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  max-width:940px;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.form-grid label{
+  display:flex;flex-direction:column;gap:9px;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:500;color:rgba(251,250,246,.55);
+}
+.form-grid label.full{grid-column:1 / -1}
+.form-grid .req{color:var(--coral);margin-left:3px}
+.project-form input,
+.project-form textarea{
+  width:100%;font-family:var(--body);font-size:.96rem;font-weight:400;
+  letter-spacing:normal;text-transform:none;
+  color:var(--paper);background:rgba(251,250,246,.06);
+  border:1px solid var(--line-ink);border-radius:12px;padding:13px 15px;
+  transition:border-color .3s,background .3s,box-shadow .3s;
+}
+.project-form input::placeholder,
+.project-form textarea::placeholder{color:rgba(251,250,246,.34)}
+.project-form textarea{resize:vertical;min-height:132px;line-height:1.6}
+.project-form input:focus,
+.project-form textarea:focus{
+  outline:none;border-color:var(--blue);background:rgba(251,250,246,.09);
+  box-shadow:0 0 0 3px rgba(59,79,224,.28);
+}
+.project-form input.invalid,
+.project-form textarea.invalid{
+  border-color:var(--coral);box-shadow:0 0 0 3px rgba(255,90,60,.22);
+}
+.project-form button.btn{border:none;cursor:pointer;font-family:var(--body)}
+.project-form button.btn:disabled{opacity:.55;cursor:default;transform:none;box-shadow:none}
+.form-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:2px}
+.form-status{
+  font-size:.9rem;font-weight:500;color:rgba(251,250,246,.7);
+  min-height:1.2em;transition:color .3s;
+}
+.form-status.ok{color:#4FD0B5}
+.form-status.err{color:#FF9077}
+/* honeypot: pulled off-screen, hidden from humans and assistive tech */
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -956,28 +1012,73 @@ footer{background:var(--ink);border-top:1px solid var(--line-ink);padding:38px 0
 
 <!-- ===================== CONTACT ===================== -->
 <section class="contact" id="contact" aria-labelledby="contact-title">
-  <div class="wrap contact-grid">
-    <div>
-      <p class="eyebrow rv">Get in touch</p>
-      <h2 class="h2 rv rv-d1" id="contact-title">What would your team do with <em>ten hours a week back?</em></h2>
-      <p class="lede rv rv-d2">Tell us about the process that's eating your time. If we can automate it, we'll tell you how — and if we can't, we'll tell you that too.</p>
-      <a class="btn btn-spectrum rv rv-d3" href="mailto:patrick@acceleratesolutions.net?subject=Project%20inquiry">Start the conversation
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <p class="eyebrow rv">Get in touch</p>
+        <h2 class="h2 rv rv-d1" id="contact-title">What would your team do with <em>ten hours a week back?</em></h2>
+        <p class="lede rv rv-d2">Tell us about the process that's eating your time. If we can automate it, we'll tell you how — and if we can't, we'll tell you that too.</p>
+        <a class="btn btn-spectrum rv rv-d3" href="#project-inquiry">Start the conversation
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="contact-card rv rv-d2">
+        <a class="contact-row c-blue" href="mailto:patrick@acceleratesolutions.net">
+          <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <span><span class="contact-k">Email</span><br><span class="contact-v">patrick@acceleratesolutions.net</span></span>
+        </a>
+        <div class="contact-row c-teal">
+          <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <span><span class="contact-k">Based in</span><br><span class="contact-v">Louisville, Kentucky</span></span>
+        </div>
+        <div class="contact-row c-coral">
+          <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+          <span><span class="contact-k">Response time</span><br><span class="contact-v">Within one business day</span></span>
+        </div>
+      </div>
     </div>
-    <div class="contact-card rv rv-d2">
-      <a class="contact-row c-blue" href="mailto:patrick@acceleratesolutions.net">
-        <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
-        <span><span class="contact-k">Email</span><br><span class="contact-v">patrick@acceleratesolutions.net</span></span>
-      </a>
-      <div class="contact-row c-teal">
-        <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
-        <span><span class="contact-k">Based in</span><br><span class="contact-v">Louisville, Kentucky</span></span>
+
+    <!-- project inquiry form -> Apps Script backend -->
+    <div class="inquiry" id="project-inquiry">
+      <p class="eyebrow rv">Project inquiry</p>
+      <div class="inquiry-head rv rv-d1">
+        <h3>Tell us what's eating your team's time.</h3>
+        <p>Share the process you'd hand to software. We'll review it and reply within one business day — no obligation, no sales runaround.</p>
       </div>
-      <div class="contact-row c-coral">
-        <span class="contact-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
-        <span><span class="contact-k">Response time</span><br><span class="contact-v">Within one business day</span></span>
-      </div>
+      <form id="projectInquiryForm" class="project-form rv rv-d2" novalidate>
+        <div class="form-grid">
+          <label>Name<span class="req">*</span>
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>Organization
+            <input type="text" name="organization" autocomplete="organization">
+          </label>
+          <label>Email<span class="req">*</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>Phone
+            <input type="tel" name="phone" autocomplete="tel">
+          </label>
+          <label class="full">Current tools or systems
+            <input type="text" name="tools" placeholder="Google Workspace, Excel, Therap, QuickBooks, EHR…">
+          </label>
+          <label class="full">Timeline
+            <input type="text" name="timeline" placeholder="ASAP · this quarter · just exploring">
+          </label>
+          <label class="full">What are you trying to automate?<span class="req">*</span>
+            <textarea name="message" rows="6" required placeholder="Describe the process, roughly how often it runs, and how much time it eats."></textarea>
+          </label>
+          <label class="hp-field" aria-hidden="true">Website
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-spectrum">Send inquiry
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p id="projectInquiryStatus" class="form-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -1091,6 +1192,89 @@ footer{background:var(--ink);border-top:1px solid var(--line-ink);padding:38px 0
     .card.hover-sim .card-back{opacity:1;transform:none;transition-delay:.12s}
   `;
   document.head.appendChild(style);
+
+  /* ---------- project inquiry form ----------
+     Posts to the Apps Script web app. Because a static site can't read a
+     cross-origin Apps Script response, we submit with mode:'no-cors' and
+     treat a completed request as success. That means the server's own
+     validation errors never reach the browser, so we validate here first. */
+  const INQUIRY_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+
+  const form = document.getElementById('projectInquiryForm');
+  if (form){
+    const statusEl = document.getElementById('projectInquiryStatus');
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const setStatus = (msg, kind) => {
+      statusEl.textContent = msg;
+      statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
+    };
+
+    const validate = () => {
+      let ok = true;
+      const checks = [
+        ['name', v => v.trim().length > 0],
+        ['email', v => emailRe.test(v.trim())],
+        ['message', v => v.trim().length > 0]
+      ];
+      checks.forEach(([field, test]) => {
+        const el = form.elements[field];
+        const valid = test(el.value);
+        el.classList.toggle('invalid', !valid);
+        if (!valid) ok = false;
+      });
+      return ok;
+    };
+
+    ['name','email','message'].forEach(f => {
+      form.elements[f].addEventListener('input', e => e.target.classList.remove('invalid'));
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      // Honeypot: bots fill the hidden "website" field. Fake success, send nothing.
+      const hp = form.elements['website'];
+      if (hp && hp.value.trim()){
+        setStatus('Thanks — your inquiry has been sent.', 'ok');
+        form.reset();
+        return;
+      }
+
+      if (!validate()){
+        setStatus('Please add your name, a valid email, and a short description.', 'err');
+        return;
+      }
+
+      if (INQUIRY_ENDPOINT.indexOf('PASTE_') === 0){
+        setStatus('Form isn\u2019t connected yet — email patrick@acceleratesolutions.net directly.', 'err');
+        return;
+      }
+
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      setStatus('Sending\u2026');
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.source = window.location.href;
+      data.userAgent = navigator.userAgent;
+
+      try {
+        await fetch(INQUIRY_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+        setStatus('Thanks \u2014 your inquiry is in. We\u2019ll reply within one business day.', 'ok');
+        form.reset();
+      } catch (err) {
+        setStatus('Something went wrong. Please email patrick@acceleratesolutions.net directly.', 'err');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
 })();
 </script>
 </body>
